@@ -5,11 +5,13 @@ class paddleClass
 {
 public:
 
-	static float paddleWidth;
-	static float paddleHeight;
+	float paddleWidth;
+	float paddleHeight;
+	float paddleY;
+	float paddleX;
 	Color paddleColor;
 
-	void createPaddle(int paddleWidth, int paddleHeight, int posX, int posY, Color paddleColor)
+	void createPaddle(int posX, int posY, int paddleWidth, int paddleHeight, Color paddleColor)
 	{
 
 		DrawRectangle(posX, posY, paddleWidth, paddleHeight, paddleColor);
@@ -38,32 +40,53 @@ public:
 
 
 int main() {
+
+
 	const int screen_width = 800;
 	const int screen_height = 450;
 	const float ballRadius = 10;
+
+
+	//Ball Creation and Initialized
+	ballClass ball;
+	ball.xCord = screen_width / 2;
+	ball.yCord = screen_height / 2;
+	ball.ballRadius = 10;
+	ball.ballColor = BLACK;
+
+
+
 	//Paddle1 Creation and Initialized 
 	paddleClass Paddle1;
 	Paddle1.paddleHeight = 125;
 	Paddle1.paddleWidth = 25;
 	Paddle1.paddleColor = BLACK;
-	//Ball Creation and Initialized
-	ballClass ball;
+
+
+
+	//Paddle1 Position 
+	Paddle1.paddleY = screen_height / 2 - Paddle1.paddleHeight / 2;
+	Paddle1.paddleX = 10;
+
+	
 	
 
 	InitWindow(screen_width, screen_height, "Pong?");
 
-	SetTargetFPS(69);
+	SetTargetFPS(60);
 
 	while (!WindowShouldClose()) {
 		
-		BeginDrawing();	
+		BeginDrawing();
+		Paddle1.paddleX++;
+
 
 		ClearBackground(RAYWHITE);
-		DrawCircle(screen_width / 2, screen_height /2,ballRadius,
-			WHITE);
 
-		Paddle1.createPaddle(Paddle1.paddleWidth,Paddle1.paddleHeight,
-			10,screen_height/2 - Paddle1.paddleHeight/2,
+		ball.createBall(ball.xCord, ball.yCord, ball.ballRadius, ball.ballColor);
+
+		Paddle1.createPaddle(Paddle1.paddleX,Paddle1.paddleY,
+			Paddle1.paddleWidth,Paddle1.paddleHeight,
 			Paddle1.paddleColor);
 
 
